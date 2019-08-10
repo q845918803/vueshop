@@ -1,6 +1,6 @@
 const Koa = require('koa');
 const app = new Koa()
-const {connect} = require('./serverContent.js')
+const {connect} = require('./database/serverContent.js/index.js')
 //链接数据库
 ;(async ()=>{
     await connect()

@@ -19,8 +19,6 @@ exports.connect = ()=>{
                 rej()
                 console.log(`数据库连接超时，请检查网络设置...`,new Date())
             }
-            
-           
         })
         mongoose.connection.on('error',(err)=>{
             console.log(`链接出错`,new Date())
