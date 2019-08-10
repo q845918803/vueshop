@@ -12,6 +12,7 @@ Vue
     .use(Col)
     .use(SwipeItem).use(Swipe)
     .use(Lazyload)
+    
 new Vue({
   el: '#app',
   router,

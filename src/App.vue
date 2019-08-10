@@ -8,11 +8,12 @@
 
 export default {
   name: 'App'
+
 }
 </script>
 
 <style>
 #app {
-  
+  background: #eee;
 }
 </style>
