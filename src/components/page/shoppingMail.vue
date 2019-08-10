@@ -23,7 +23,7 @@
         <div class="type-bar">
             <div v-for="(ite,index) in category" :key="index">
                 <img v-lazy="ite.image" alt="" >
-                <span>{{ite.mallCategoryName}}</span>
+                <span>{{ite.mallCategoryName | fixTitle}}</span>
             </div>
         </div>
         <!-- adbanner -->
@@ -36,20 +36,31 @@
                &nbsp;&nbsp; 商品推荐
             </div>
             <div class="recommend-body">
-
+                <swiper :options="swiperOption">
+                    <swiper-slide v-for="(item,index) in recommendGoods" :key="index">
+                        <div  class="recommed-item">
+                            <!-- 无法使用lazyload -->
+                            <img :src="item.image" width="80%" alt="">
+                            <div>{{item.goodsName |fixTitle }}</div>
+                            <div>￥{{item.price |moneyFormat}}(￥{{item.mallPrice |moneyFormat}})</div>
+                        </div>
+                    </swiper-slide>
+                </swiper>
             </div>
         </div>
+        <!-- floor1 -->
+        <floor-item v-if=" floor[0].item.length > 1" :floorData="floor"></floor-item>
     </div>
 </template>
 <script>
 import axios from 'axios'
-import {swiper, swiperSlide} from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
-// E:\workspaces\Vue\vueshangcheng\SmailShop\src\assets\image\location.png
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import FloorItem from '../../components/swiper/floor'
+const swiperOption = {
+    slidesPerView: 3
+}
 export default {
-      components:{
-          swiper, swiperSlide
-        },
     data(){
       
         return {
@@ -64,11 +75,29 @@ export default {
             category:[],
             adbanner:[],
             recommendGoods:[],
+            swiperOption:swiperOption,
+            floor: [
+                {
+                    floorName:'',
+                    item:[]
+                },
+                 {
+                    floorName:'',
+                    item:[]
+                },
+                {
+                    floorName:'',
+                    item:[]
+                },
+            ],
         }
     },
     created () {
         this.name = 'Shopping mail';
-        this._getIndex();
+         this._getIndex();
+    },
+    mounted(){
+       
     },
     methods:{
         _getIndex(){
@@ -81,19 +110,53 @@ export default {
                 // console.log(res)
                 if(res.status == 200) {
                     this.category = res.data.data.category
-                    console.log(this.category)
                     this.adbanner = res.data.data.advertesPicture
-                    this.bannerPicList = res.data.data.slides;
-                 
+                    this.bannerPicList = res.data.data.slides
+                    this.recommendGoods = res.data.data.recommend
+                    this.floor[0].item = res.data.data.floor1
+                    this.floor[1].item = res.data.data.floor2
+                    this.floor[2].item = res.data.data.floor3
+                    this.floor[0].floorName = res.data.data.floorName.floor1;
+                    this.floor[1].floorName = res.data.data.floorName.floor2;
+                    this.floor[2].floorName = res.data.data.floorName.floor3;
                 }
             }).catch(err=>{
                 console.log(err)
             })
         }
-    }
+    },
+    watch:{
+    },
+    components: {
+        swiper,swiperSlide,FloorItem
+    },
+     filters:{
+            moneyFormat:(money)=>{
+                return money? money.toFixed(2): new Number(0).toFixed(2);
+            },
+            fixTitle:(title)=>{
+                if(title.length>13){
+                   let arr = title.split('')
+                   console.log(arr)
+                   let flg = Math.floor(arr.length/2)
+                   var arr2 = arr.slice(0,flg)
+                   for(let i = 0;i<3;i++){
+                       arr2.push('.');
+                   }
+                   arr2 = arr2.join('');
+                   return arr2
+                }else {
+                    return title
+                }
+                
+            }
+        }
 }
 </script>
 <style lang="" scoped>
+    /* *{
+        box-sizing: b;
+    } */
     .search-bar {
         height:2.2rem;
         background-color: #e501e5;
@@ -163,4 +226,18 @@ export default {
         line-height: 1rem;
         color: #e501e5;
     }
+    .recommend-body {
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        
+    }
+    .recommed-item {
+        width: 100%;
+        background: #fff;
+        text-align: center;
+        font-size: 10px;
+        border-left: 1px solid #eee;
+        height: 9rem;
+    }
+    
 </style>
