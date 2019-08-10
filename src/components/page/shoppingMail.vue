@@ -60,6 +60,7 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import FloorItem from '../../components/swiper/floor'
 import HotList from '../../components/swiper/hot-list'
 import {moneyFormat,fixTitle} from '../../assets/js/filter'
+import {URL} from '../../serviceAPI.config'
 const swiperOption = {
     slidesPerView: 3
 }
@@ -107,7 +108,7 @@ export default {
         _getIndex(){
             axios(
                 {
-                    url:' https://www.easy-mock.com/mock/5d4d599718b37129b732d70e/example/index',
+                    url: URL.getShoppinfMallInfo,
                     method: 'get',
                 }
             ).then(res=>{

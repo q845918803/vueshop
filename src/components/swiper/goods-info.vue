@@ -38,7 +38,8 @@ import {moneyFormat,fixTitle} from '../../assets/js/filter'
     .goods-info div {
         height: 1rem;
         line-height: 1rem;
-        font-size: 13px;
-        text-align: center;
+        font-size: 9px;
+        text-align: center; 
+        font-weight: bold;
     }
 </style>
