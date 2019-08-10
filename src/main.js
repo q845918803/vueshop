@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import {Button, Row, Col, Swipe, SwipeItem, Lazyload} from 'vant'
+import {Button, Row, Col, Swipe, SwipeItem, Lazyload, List} from 'vant'
 /* eslint-disable no-new */
 
 Vue
@@ -12,7 +12,7 @@ Vue
     .use(Col)
     .use(SwipeItem).use(Swipe)
     .use(Lazyload)
-    
+    .use(List)
 new Vue({
   el: '#app',
   router,

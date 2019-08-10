@@ -50,6 +50,7 @@
         </div>
         <!-- floor1 -->
         <floor-item v-if=" floor[0].item.length > 1" :floorData="floor"></floor-item>
+        <hot-list v-if="hotGoods.length > 0" :hotGoods="hotGoods"></hot-list>
     </div>
 </template>
 <script>
@@ -57,6 +58,8 @@ import axios from 'axios'
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import FloorItem from '../../components/swiper/floor'
+import HotList from '../../components/swiper/hot-list'
+import {moneyFormat,fixTitle} from '../../assets/js/filter'
 const swiperOption = {
     slidesPerView: 3
 }
@@ -90,6 +93,7 @@ export default {
                     item:[]
                 },
             ],
+            hotGoods:[]
         }
     },
     created () {
@@ -119,6 +123,7 @@ export default {
                     this.floor[0].floorName = res.data.data.floorName.floor1;
                     this.floor[1].floorName = res.data.data.floorName.floor2;
                     this.floor[2].floorName = res.data.data.floorName.floor3;
+                    this.hotGoods= res.data.data.hotGoods
                 }
             }).catch(err=>{
                 console.log(err)
@@ -128,26 +133,14 @@ export default {
     watch:{
     },
     components: {
-        swiper,swiperSlide,FloorItem
+        swiper,swiperSlide,FloorItem,HotList
     },
      filters:{
             moneyFormat:(money)=>{
-                return money? money.toFixed(2): new Number(0).toFixed(2);
+               return moneyFormat(money)
             },
             fixTitle:(title)=>{
-                if(title.length>13){
-                   let arr = title.split('')
-                   console.log(arr)
-                   let flg = Math.floor(arr.length/2)
-                   var arr2 = arr.slice(0,flg)
-                   for(let i = 0;i<3;i++){
-                       arr2.push('.');
-                   }
-                   arr2 = arr2.join('');
-                   return arr2
-                }else {
-                    return title
-                }
+                 return fixTitle(title);
                 
             }
         }
