@@ -5,7 +5,9 @@ const db = 'mongodb://localhost:27017/vueshop-db'
 const glob = require('glob')
 //resolve 相对路径转为绝对路径
 const {resolve} = require('path')
-mongoose.set('useNewUrlParser',true)
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 exports.initSchemas = ()=>{
     //获取所有的schema对象 全局匹配
     console.log('获取schema')
