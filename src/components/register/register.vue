@@ -40,6 +40,8 @@
 </template>
 
 <script>
+    import axios from 'axios'
+    import {URL} from '../../serviceAPI.config.js'
     export default {
         name:'Register',
         data(){
@@ -65,7 +67,18 @@
                 })
             },
             register(){
-
+                axios({
+                    url:URL.registerUser,
+                    method: 'post',
+                    data: {
+                        username: this.username,
+                        password: this.password
+                    }
+                }).then(res=>{
+                    console.log(new Date(),res)
+                }).catch(err=>{
+                    console.log(new Date(),err)
+                })
             }
         }
     }
