@@ -2,7 +2,7 @@
     <div class="register">
         <van-nav-bar 
             class="register-title"
-            title="用户注册"
+            title="用户登录"
             left-text="返回"
             left-arrow
             @click-left="goBack"
@@ -32,11 +32,20 @@
                 <van-button
                     type="primary"
                     size="large"
-                    @click="registerAction"
+                    @click="loginAction"
                     :loading="openLoading"
-                    
                 >
-                    马上注册
+                    登录
+                </van-button>
+            </div>
+             <div class="register-button">
+                <van-button
+                    type="primary"
+                    size="large"
+                    @click="goRegister"
+                    :loading="openLoading"
+                >
+                    注册
                 </van-button>
             </div>
         </div>
@@ -63,58 +72,19 @@
         },
         computed:{
             checkForm(){
-                let isOk = true
-                if(this.username.length<3){
-                    this.usernameErrorMsg = '用户名长度必须大于3位'
-                    isOk = false
-                }else{
-                    this.usernameErrorMsg = ''
-                }
-                if(this.password.length<6){
-                    console.log('jcjidsa')
-                    this.passwordErrorMsg = '密码长度必须大于6位'
-                    isOk = false
-                }else{
-                    this.passwordErrorMsg = ''
-                }
-                return isOk
+              
             }
         },
-        methods: {
+        methods:{
             goBack(){
+                this.$router.go(-1)
+            },
+            loginAction(){
+
+            },
+            goRegister(){
                 this.$router.push({
-                    path:'/home'
-                })
-            },
-            registerAction(){
-                this.checkForm && this.register()
-            },
-            register(){
-               this.openLoading = true;
-                axios({
-                    url:URL.registerUser,
-                    method: 'post',
-                    data: {
-                        username: this.username,
-                        password: this.password
-                    }
-                }).then(res=>{
-                    if(res.data.code == 200) {
-                        Toast.success(res.data.message)
-                        this.$router.push({
-                            path:'/'
-                        })
-                        this.openLoading = false
-                    }else if(res.data.code == 500) {
-                        if(res.data.message.code == 11000){
-                            Toast.fail('用户名已被注册');
-                            this.openLoading = false
-                        }
-                    }
-                }).catch(err=>{
-                        console.log(err)
-                        Toast.fail('注册失败')
-                        this.openLoading = false
+                    path: '/register'
                 })
             }
         }

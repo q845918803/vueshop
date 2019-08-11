@@ -8,6 +8,12 @@ api.get('/',async (ctx)=>{
     ctx.body = '用户首页'
 })
 api.post('/register',async (ctx)=>{
+    if(ctx.request.body.username =='' || ctx.request.body.password =='') {
+        ctx.body = {
+            code: 500,
+            message: '用户名或密码为空'
+        }
+    }
     const User = mongoose.model('User')
     let newUser = new User({
         userName: ctx.request.body.username,
