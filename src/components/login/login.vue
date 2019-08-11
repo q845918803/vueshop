@@ -43,7 +43,6 @@
                     type="primary"
                     size="large"
                     @click="goRegister"
-                    :loading="openLoading"
                 >
                     注册
                 </van-button>
@@ -80,7 +79,34 @@
                 this.$router.go(-1)
             },
             loginAction(){
-
+                this.openLoading = true
+                axios({
+                    url:URL.login,
+                    method:'post',
+                    data:{
+                        username:this.username,
+                        password:this.password,
+                    }
+                }).then(res=>{
+                    console.log(res)
+                    if(res.data.code == 200) {
+                        Toast.success('登录成功！')
+                       
+                        this.$router.push({
+                            path:'/'
+                        })
+                    }else if(res.data.code == 500){
+                        Toast.fail(res.data.message)
+                    }else {
+                        Toast.fail(res.data.message)
+                    }
+                    this.openLoading = false
+                }).catch(err=>{
+                    
+                    Toast.fail('登录失败')
+                    console.log(err)
+                    this.openLoading = false
+                })
             },
             goRegister(){
                 this.$router.push({

@@ -4,7 +4,6 @@ export const  moneyFormat = function(money){
 export const  fixTitle = function(title){
     if(title.length>13){
        let arr = title.split('')
-       console.log(arr)
        let flg = Math.floor(arr.length/2)
        var arr2 = arr.slice(0,flg)
        for(let i = 0;i<3;i++){

@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt')
 //创建User类的主键
 let ObjectId = Schema.Types.ObjectId
+//加盐强度
 const SALT_WORK_FACTOR = 10;
 //创建Username Schema
 
@@ -39,6 +40,19 @@ userSchema.pre('save',function(next){
         })
     })
 })
+userSchema.methods = {
+    comparePassword:(_password,password)=>{
+        return new Promise((res,rej)=>{
+            bcrypt.compare(_password,password,(err,isMatch)=>{
+                if(!err){
+                    res(isMatch) 
+                } else {
+                    rej(err)
+                }
+            })
+        })
+    }
+}
 //schema 发布模型
 
 mongoose.model('User',userSchema)
