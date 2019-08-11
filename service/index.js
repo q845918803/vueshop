@@ -11,10 +11,12 @@ const Cors = require('koa2-cors')
 const bodyParser = require('koa-bodyparser')
 let user = require('./api/user.js')
 let home = require('./api/home.js')
+let goods = require('./api/goods.js')
 let router = new Router()
 
 router.use('/user',user.routes())
 router.use('/home',home.routes())
+router.use('/goods',goods.routes())
 app.use(bodyParser())
 //设置跨域参数
 app.use(Cors({
