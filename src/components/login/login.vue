@@ -74,9 +74,18 @@
               
             }
         },
+        created(){
+            this.checkLocalStorage()
+        },
         methods:{
             goBack(){
                 this.$router.go(-1)
+            },
+            checkLocalStorage() {
+                if(localStorage.userInfo){
+                    Toast.success('请不要重复登录哦')
+                    this.$router.push('/')
+                }
             },
             loginAction(){
                 this.openLoading = true
@@ -88,13 +97,26 @@
                         password:this.password,
                     }
                 }).then(res=>{
+                    //等待本地存储完成
                     console.log(res)
                     if(res.data.code == 200) {
-                        Toast.success('登录成功！')
+                        new Promise((res,rej)=>{
+                            localStorage.userInfo={
+                                userName:this.username
+                            }
+                            setTimeout(()=>{
+                                res()
+                            },500)
+                            }).then(res=>{
+                            Toast.success('登录成功！')
                        
-                        this.$router.push({
-                            path:'/'
+                            this.$router.push({
+                                path:'/'
+                            })
+                        }).catch(err=>{
+                            Toast.fail('登录状态保存失败')
                         })
+                        
                     }else if(res.data.code == 500){
                         Toast.fail(res.data.message)
                     }else {
