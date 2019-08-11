@@ -9,11 +9,21 @@ api.get('/',async (ctx)=>{
 })
 api.post('/register',async (ctx)=>{
     const User = mongoose.model('User')
-    let newUser = new User(newUser)
+    let newUser = new User({
+        userName: ctx.request.body.username,
+        passWord: ctx.request.body.password
+    })
+    // newUser.userName = ctx.request.body.username
+    // newUser.passWord = ctx.request.body.password
     await newUser.save().then(()=>{
         ctx.body = {
             code: 200,
             message: '注册成功！'
+        }
+    }).catch(err=>{
+        ctx.body = {
+            code: 500,
+            message: err
         }
     })
 })

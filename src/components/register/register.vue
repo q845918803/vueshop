@@ -42,6 +42,7 @@
 <script>
     import axios from 'axios'
     import {URL} from '../../serviceAPI.config.js'
+    import {Toast} from 'vant'
     export default {
         name:'Register',
         data(){
@@ -76,8 +77,14 @@
                     }
                 }).then(res=>{
                     console.log(new Date(),res)
+                    if(res.data.code == 200) {
+                        Toast.success(res.data.message)
+                    }else {
+                        
+                    }
                 }).catch(err=>{
-                    console.log(new Date(),err)
+                        console.log(err)
+                        Toast.fail('注册失败')
                 })
             }
         }
