@@ -1,6 +1,16 @@
+const MongoClient = require('mongoose').MongoClient
 const mongoose = require('mongoose')
-const db = 'mongodb://localhost/vueshop-db'
-
+const db = 'mongodb://localhost:27017/vueshop-db'
+//全局的规则定义
+const glob = require('glob')
+//resolve 相对路径转为绝对路径
+const {resolve} = require('path')
+mongoose.set('useNewUrlParser',true)
+exports.initSchemas = ()=>{
+    //获取所有的schema对象 全局匹配
+    console.log('获取schema')
+    glob.sync(resolve(__dirname,'./schema','**/*.js')).forEach(require)
+}
 exports.connect = ()=>{
     mongoose.connect(db)
     let maxConnectTimes = 0
@@ -33,6 +43,7 @@ exports.connect = ()=>{
         })
         mongoose.connection.once('open',()=>{
             console.log('数据库连接成功!',new Date())
+            res()
         })
     })
   

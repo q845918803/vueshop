@@ -8,7 +8,7 @@ let ObjectId = Schema.Types.ObjectId
 
 const userSchema = new Schema({
     //讲UserId 作为主键
-    UseerId: {
+    UserId: {
         type: ObjectId
     },
     // 用户名 
@@ -25,4 +25,8 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now()
     }
-})
+}) 
+
+//schema 发布模型
+
+mongoose.model('User',userSchema)
