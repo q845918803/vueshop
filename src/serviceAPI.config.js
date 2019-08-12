@@ -4,5 +4,6 @@ export const URL = {
     getShoppinfMallInfo: BASEURL + 'index',
     getGoodsInfo: BASEURL + 'getGoodsInfo',
     registerUser: LOCALURL + '/user/register',
-    login: LOCALURL + '/user/login'
+    login: LOCALURL + '/user/login',
+    getDetails: LOCALURL + '/goods/getDetails'
 }

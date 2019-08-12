@@ -1,5 +1,5 @@
 <template>
-    <div class="goods-info">
+    <div class="goods-info" @click="goodsClick">
         <img v-lazy="item.image" alt="" >
         <div>{{item.name | fixTitle}}</div>
         <div>￥{{item.price | moneyFormat}}</div>
@@ -21,6 +21,11 @@ import {moneyFormat,fixTitle} from '../../assets/js/filter'
             },
             fixTitle(title){
                 return fixTitle(title)
+            }
+        },
+        methods:{
+            goodsClick(){
+                this.$emit('goodsClick',this.item)
             }
         }
     }

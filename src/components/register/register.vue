@@ -102,7 +102,7 @@
                     if(res.data.code == 200) {
                         Toast.success(res.data.message)
                         this.$router.push({
-                            path:'/'
+                            path:'/login'
                         })
                         this.openLoading = false
                     }else if(res.data.code == 500) {

@@ -4,7 +4,7 @@
         <van-list>
             <van-row futter="20">
                 <van-col span="12" v-for="(item, index) in hotGoods" :key="index">
-                   <goods-info :item="item"></goods-info>
+                   <goods-info :item="item" @goodsClick="goGoodsDetail"></goods-info>
                 </van-col>
             </van-row>
         </van-list>
@@ -23,6 +23,13 @@ import GoodsInfo from '../../components/swiper/goods-info'
         },
         components:{
             GoodsInfo
+        },
+        methods:{
+            goGoodsDetail(){
+                this.$router.push({
+                    path:'/goods'
+                })
+            }
         }
     }
 </script>
