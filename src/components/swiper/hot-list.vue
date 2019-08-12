@@ -25,9 +25,12 @@ import GoodsInfo from '../../components/swiper/goods-info'
             GoodsInfo
         },
         methods:{
-            goGoodsDetail(){
+            goGoodsDetail(data){
                 this.$router.push({
-                    path:'/goods'
+                    path:'/goods',
+                    query:{
+                        goodsItem: data
+                    }
                 })
             }
         }

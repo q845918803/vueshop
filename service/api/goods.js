@@ -74,13 +74,17 @@ api.post('/getDetails',async ctx=>{
         let message = 'dss';
         const Goods = mongoose.model('Goods')
         let result = await Goods.findOne({ID:goodId}).exec()
-        message = result
+        ctx.body = {
+            code: 200,
+            message: result
+        }
     }catch(err){
-        message = err
+        ctx.body = {
+            code:500,
+            message:err
+        }
+        
     }
-    ctx.body = {
-        code:code,
-        message:message
-    }
+    
 })
 module.exports = api
