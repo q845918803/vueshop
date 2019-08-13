@@ -5,5 +5,7 @@ export const URL = {
     getGoodsInfo: BASEURL + 'getGoodsInfo',
     registerUser: LOCALURL + '/user/register',
     login: LOCALURL + '/user/login',
-    getDetails: LOCALURL + '/goods/getDetails'
+    getDetails: LOCALURL + '/goods/getDetails',
+    getCateforyList: LOCALURL + '/goods/getCateforyList',
+    getCategorySubList: LOCALURL + '/goods/getCategorySubList'
 }

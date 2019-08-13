@@ -5,6 +5,7 @@
             left-text="返回"
             left-arrow
             @click-left="goback"
+
         />
        <div class="goods-detail-img">
            <!-- <van-loading v-if="isLoading" class="imgloading" type="spinner" color="#1989fa" />  -->
@@ -15,6 +16,25 @@
        </div>
        <div class="goods-price">
            价格：￥{{goods.PRESENT_PRICE | moneyFormat}}
+       </div>
+       <div>
+           <van-tabs swipeable sticky >
+               <van-tab  title="商品详情">
+                   <div class="detail" v-html="goods.DETAIL">
+                   </div>
+               </van-tab>
+               <van-tab title="评价">
+                   你在想peach
+               </van-tab>
+           </van-tabs>
+       </div>
+       <div class="goods-bottom">
+           <div>
+               <van-button size="large" type="primary">加入购物车</van-button>
+           </div>
+           <div>
+               <van-button size="large" type="primary">直接购买</van-button>
+           </div>
        </div>
     </div>
 </template>
@@ -70,7 +90,7 @@ import {moneyFormat,fixTitle} from '../../assets/js/filter'
     }
 </script>
 <style  scoped>
-    .goods-detail-img {
+    .goods-detail-img ,.detail{
         line-height: 0px;
     }
     .imgloading {
@@ -78,5 +98,28 @@ import {moneyFormat,fixTitle} from '../../assets/js/filter'
         transform: translate(200%,0%);
         left: 30%;
         top: 25%;
+    }
+    .goods-name {
+        background: #fff;
+    }
+    .goods-price{
+        background: #fff;
+    }
+    .goods-name,.goods-price {
+        text-align:  center
+    }
+    .goods-bottom {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+    .goods-bottom > div {
+        flex: 1;
+        padding: 5px;
+        
     }
 </style>

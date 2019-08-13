@@ -24,7 +24,7 @@ app.use(Cors({
         if(ctx.url === '/home'){
             return "*"
         }else {
-            return 'http://127.0.0.1:8080'
+            return '*'
         }
     }
 }))

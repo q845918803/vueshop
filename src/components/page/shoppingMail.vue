@@ -100,6 +100,7 @@ export default {
     created () {
         this.name = 'Shopping mail';
          this._getIndex();
+         this.testPost();
     },
     mounted(){
        
@@ -126,6 +127,15 @@ export default {
                     this.floor[2].floorName = res.data.data.floorName.floor3;
                     this.hotGoods= res.data.data.hotGoods
                 }
+            }).catch(err=>{
+                console.log(err)
+            })
+        },
+        testPost(){
+            axios({
+                url:'http://172.22.25.33:8080/jfjk/FourdeviceStatus'
+            }).then(res=>{
+                console.log(res)
             }).catch(err=>{
                 console.log(err)
             })

@@ -26,6 +26,7 @@ const fs = require('fs')
 //     ctx.body = '开始导入数据'
 // })
 api.get('/inserAllCategory',async(ctx)=>{
+    
     fs.readFile('./database/data_json/category.json','utf8',(err,data)=>{
         data=JSON.parse(data)
         let saveCount = 0;
@@ -45,6 +46,7 @@ api.get('/inserAllCategory',async(ctx)=>{
 })
 //获取商品子类
 api.get('/insertAllCategorySub',async (ctx)=>{
+  
     fs.readFile('./database/data_json/category_sub.json','utf8',(err,data)=>{
         data = JSON.parse(data)
         let saveCount = 0;
@@ -64,27 +66,62 @@ api.get('/insertAllCategorySub',async (ctx)=>{
             message:"存储成功"
         }
     })
-
 })
 //获取商品详情
 api.post('/getDetails',async ctx=>{
     try{
         let goodId = ctx.request.body.goodsId
-        let code = 200;
-        let message = 'dss';
+        // let code = 200;
+        // let message = 'dss';
         const Goods = mongoose.model('Goods')
         let result = await Goods.findOne({ID:goodId}).exec()
         ctx.body = {
             code: 200,
             message: result
         }
+        console.log(`${new Date()}:getDetails 接口调用`);
     }catch(err){
         ctx.body = {
             code:500,
-            message:err
-        }
-        
+            message:err   
+        }   
     }
-    
+})
+api.get('/getCategoryList',async ctx=>{
+    try {
+        let Category = mongoose.model('Category')
+        let result = await Category.find().exec()
+        ctx.body = {
+            code: 200,
+            message: result
+        }
+        console.log(`${new Date('yyyy-MM-dd HH-mm-ss')}:getCategoryList 接口调用`);
+    }catch(err){
+        ctx.body = {
+            code: 500,
+            message: err
+        }
+        console.log(err)
+    }
+})
+api.get('/getCategorySubList',async ctx=>{
+    try {
+        let categoryId = 1
+        let CategorySub = mongoose.model('CategorySub')
+        let result = await CategorySub.find({
+            MALL_CATEGORY_ID:categoryId
+        }).exec()
+        ctx.body = {
+            code:200,
+            message: result
+        }
+        console.log(`${new Date()}:getCategorySubList 接口调用`);
+        
+    }catch(err) {
+        ctx.body = {
+            code: 500,
+            message: err
+        }
+    }
 })
 module.exports = api
