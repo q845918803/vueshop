@@ -4,7 +4,8 @@ import ShoppingMail from '@/components/page/shoppingMail'
 import Register from '@/components/register/register'
 import Login from '@/components/login/login'
 import Goods from '@/components/Goods/goods'
-import CateforyList from '@/components/CategoryList/categorylist'
+import CategoryList from '@/components/CategoryList/categorylist'
+import CategorySub from '@/components/CategoryList/categorysub'
 Vue.use(Router)
 
 export default new Router ({
@@ -37,7 +38,13 @@ export default new Router ({
     {
       path:'/categorylist',
       name:'CateforyList',
-      component:CateforyList
+      component:CategoryList,
+      children:[
+        {
+          path:':id',
+          component:CategorySub
+        }
+      ]
     }
   ]
 })

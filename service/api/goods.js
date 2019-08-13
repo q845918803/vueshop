@@ -67,6 +67,7 @@ api.get('/insertAllCategorySub',async (ctx)=>{
         }
     })
 })
+
 //获取商品详情
 api.post('/getDetails',async ctx=>{
     try{
@@ -104,9 +105,10 @@ api.get('/getCategoryList',async ctx=>{
         console.log(err)
     }
 })
-api.get('/getCategorySubList',async ctx=>{
+api.post('/getCategorySubList',async ctx=>{
     try {
-        let categoryId = 1
+        
+        let categoryId = ctx.request.body.ID
         let CategorySub = mongoose.model('CategorySub')
         let result = await CategorySub.find({
             MALL_CATEGORY_ID:categoryId
@@ -122,6 +124,33 @@ api.get('/getCategorySubList',async ctx=>{
             code: 500,
             message: err
         }
+    }
+})
+api.post('/getGoodsForCategoryId', async ctx=>{
+    try {
+        //分页逻辑
+        console.log(ctx.request.body)
+        let categoryId = ctx.request.body.id
+        let page = ctx.request.body.page || 1
+        let num = ctx.request.body.totalPage || 10
+        let start = (page-1)*10
+        let Goods = mongoose.model('Goods')
+        let result = await Goods.find({
+           SUB_ID:categoryId
+        }).skip(start).limit(num).exec() //skip 跳过数，limit 每页显示的数量
+        ctx.body = {
+            code: 200,
+            data: result,
+            message: 'success'
+        }
+        console.log(`${new Date()}:getGoodsForCategoryId 接口调用${result}`);
+    }catch(err){
+        ctx.body = {
+            code: 500,
+            data: err,
+            message: 'filed'
+        }
+        console.log(`${new Date()}:getGoodsForCategoryId 接口调用出错${err}`);
     }
 })
 module.exports = api

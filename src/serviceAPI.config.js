@@ -6,6 +6,7 @@ export const URL = {
     registerUser: LOCALURL + '/user/register',
     login: LOCALURL + '/user/login',
     getDetails: LOCALURL + '/goods/getDetails',
-    getCateforyList: LOCALURL + '/goods/getCateforyList',
-    getCategorySubList: LOCALURL + '/goods/getCategorySubList'
+    getCategoryList: LOCALURL + '/goods/getCategoryList',
+    getCategorySubList: LOCALURL + '/goods/getCategorySubList',
+    getGoodsForCategoryId: LOCALURL + '/goods/getGoodsForCategoryId'
 }

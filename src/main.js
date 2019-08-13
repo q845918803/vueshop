@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import {Tabs,Tab,Loading,Button, Row, Col, Swipe, SwipeItem, Lazyload, List, Field, NavBar} from 'vant'
+import {PullRefresh,Tabs,Tab,Loading,Button, Row, Col, Swipe, SwipeItem, Lazyload, List, Field, NavBar} from 'vant'
 /* eslint-disable no-new */
 
 Vue
@@ -17,6 +17,7 @@ Vue
     .use(NavBar)
     .use(Loading)
     .use(Tabs).use(Tab)
+    .use(PullRefresh)
 new Vue({
   el: '#app',
   router,
