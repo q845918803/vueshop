@@ -23,16 +23,19 @@
                 <div class="list-div">
                     <van-pull-refresh v-model="isRefresh" @refresh="swiperDownFresh">
                         <van-list @load="swiperUpLoading" v-model="loading" :finished="finished">
-                            <div class="list-item" v-for="item in goodslist" :key="item">
+                            <div class="list-item" v-for="(item,index) in goodslist" :key="index">
                                 <div class="list-item-img">
-                                    <img :src="item.IMAGE1" width="100%" alt="">
+                                    <img :src="item.IMAGE1" width="100%" alt="" :onerror="errImg">
                                 </div>
+                                <div class="list-item-text">
                                 <div>
-                                    {{item.NAME}}
+                                    {{item.NAME | fixTitle}}
                                 </div>
                                 <div>
                                     {{item.ORI_PRICE}}
                                 </div>
+                                </div>
+                                
                             </div>
                         </van-list>
                     </van-pull-refresh>
@@ -47,6 +50,7 @@
 import {URL} from '../../serviceAPI.config'
 import axios from 'axios'
 import {Toast} from 'vant'
+import {fixTitle} from '../../assets/js/filter'
     export default {
         data(){
             return {
@@ -61,6 +65,7 @@ import {Toast} from 'vant'
                     totalPage: 10,
                     id: ''
                 },
+                errImg: 'this.src="'+require('../../assets/image/errorimg.png')+'"',
                 goodslist:[],
                 isRefresh: false // 下拉刷新
             }
@@ -71,6 +76,11 @@ import {Toast} from 'vant'
         },
         mounted(){
          this.initUI()
+        },
+        filters:{
+            fixTitle(money){
+                return fixTitle(money)
+            }
         },
         methods: {
            
@@ -100,10 +110,10 @@ import {Toast} from 'vant'
             },
             swiperDownFresh(){
                 setTimeout(()=>{
+                    this.this.postData.page = 1
                     this.isRefresh = false
                     this.finished = false
                     this.goodslist = []
-                    
                     this.swiperUpLoading()
                     
                 },500)
@@ -144,12 +154,11 @@ import {Toast} from 'vant'
             },
             selectItem(item,index){
                 this.indexId = index;
-                  this.postData.page =1
+                this.postData.page =1
                 this.finished = false
                 this.goodslist = []
                 this._getCateGorySub(item.ID)
                 this.active = 0;
-              
             },
              _getCateGorySub(id){
             axios({
@@ -162,6 +171,8 @@ import {Toast} from 'vant'
                 if(res.data.code = 200 && res.data.message){
                     // this.indexId = id
                     this.sublist = res.data.message
+                    this.postData.id = this.sublist[0].ID
+                    this.swiperUpLoading()
                 }else {
                     Toast.fail('请求失败，服务器错误！')
                     console.log(res)
@@ -191,7 +202,9 @@ import {Toast} from 'vant'
         padding-bottom: .5rem;
 
     }
-
+    .list-item-img{
+        flex: 8;
+    }
     .cateGortyActive {
         background: #eee;
     }
@@ -200,8 +213,15 @@ import {Toast} from 'vant'
     }
     .list-item {
         text-align: center;
-        line-height: 3rem;
+        line-height: 1.5rem;
         border-bottom: 1px solid #f0f0f0;
         background: #fff;
+        display: flex;
+        flex-direction: row;
+    }
+    .list-item-text {
+        flex: 16;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 </style>
