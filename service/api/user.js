@@ -40,7 +40,6 @@ api.post('/login',async(ctx)=>{
     let password = loginUser.password
     // 进行数据库查找
     const User = mongoose.model('User')
-
     await User.findOne({userName:username}).exec().then(async (result)=>{
         console.log(result)
         //如果次用户名存在
@@ -86,5 +85,24 @@ api.post('/login',async(ctx)=>{
         }
     })
 
+})
+api.post('/findUser',async(ctx)=>{
+    try{
+        let username = ctx.request.body.userName
+        const User = mongoose.model('User')
+        let result = await User.findOne({userName:username}).exec()
+        ctx.body = {
+            code: 200,
+            data: result,
+            message: '获取成功！'
+        }
+    }catch(err){
+        ctx.body = {
+            code: 500,
+            data:err,
+            message:'服务器出错'
+        }
+    }
+  
 })
 module.exports = api

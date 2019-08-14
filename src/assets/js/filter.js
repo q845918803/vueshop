@@ -1,7 +1,7 @@
-export const  moneyFormat = function(money){
-    return money? money.toFixed(2): new Number(0).toFixed(2);
+export let  moneyFormat = function(money){
+    return money? money.toFixed(2) : new Number(0).toFixed(2);
 }
-export const  fixTitle = function(title){
+export let  fixTitle = function(title){
     if(title.length>13){
        let arr = title.split('')
        let flg = Math.floor(arr.length/2)

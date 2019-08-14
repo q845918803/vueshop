@@ -26,6 +26,14 @@ const userSchema = new Schema({
     lastLoginAt: {
         type: Date,
         default: Date.now()
+    },
+    birth:{
+        type: Date,
+        default: Date.now()
+    },
+    avator:{
+        type: String,
+        default: null,
     }
 }) 
 userSchema.pre('save',function(next){

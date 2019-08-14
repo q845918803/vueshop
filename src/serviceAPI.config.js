@@ -8,5 +8,6 @@ export const URL = {
     getDetails: LOCALURL + '/goods/getDetails',
     getCategoryList: LOCALURL + '/goods/getCategoryList',
     getCategorySubList: LOCALURL + '/goods/getCategorySubList',
-    getGoodsForCategoryId: LOCALURL + '/goods/getGoodsForCategoryId'
+    getGoodsForCategoryId: LOCALURL + '/goods/getGoodsForCategoryId',
+    findUser:LOCALURL + '/user/findUser' // 获取用户信息
 }

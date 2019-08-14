@@ -30,7 +30,7 @@
        </div>
        <div class="goods-bottom">
            <div>
-               <van-button size="large" type="primary">加入购物车</van-button>
+               <van-button @click="addGoodsToCart" size="large" type="primary">加入购物车</van-button>
            </div>
            <div>
                <van-button size="large" type="primary">直接购买</van-button>
@@ -63,11 +63,40 @@ import {moneyFormat,fixTitle} from '../../assets/js/filter'
        },
      
        created(){
-           this.goodsItem = this.$route.query.goodsItem
-           console.log(this.goodsItem)
-           this.getInfo(this.goodsItem.goodsId)
+           this.goodsItem = this.$route.query.goodsItem ? this.$route.query.goodsItem.goodsId : this.$route.params.goodsitem.ID
+        //    console.log(this.$route.params.goodsitem)
+        //    console.log(this.goodsItem)
+           this.getInfo(this.goodsItem)
        },
        methods:{
+           addGoodsToCart(){
+            //    localStorage.removeItem(cartInfo)
+
+               let cartInfo = localStorage.cartInfo ? JSON.parse(localStorage.cartInfo) : []
+               let isHaveGoods =  cartInfo.find(cart=>cart.goodsId == this.goodsItem)
+               if(!isHaveGoods){
+                   let newGoodsInfo = {
+                       goodsId:this.goods.ID,
+                       Name:this.goods.NAME,
+                       price:this.goods.ORI_PRICE,
+                       image:this.goods.IMAGE1,
+                       count:1
+                   }
+                   cartInfo.push(newGoodsInfo)
+                   localStorage.cartInfo = JSON.stringify(cartInfo)
+                   Toast.success('添加成功')
+               }else{
+                   Toast.success('已有此商品')
+               }
+                this.$router.push({
+                   name:"Carts"
+               })
+           },
+           goCart(){
+            //    this.$router.push({
+            //        path:"/carts"
+            //    })
+           },
            getInfo(id){
                axios({
                    url:URL.getDetails,
@@ -78,7 +107,7 @@ import {moneyFormat,fixTitle} from '../../assets/js/filter'
                    if(res.data.code == 500) {
                        Toast.fail('数据获取失败，服务器错误')
                    }
-                   console.log(res)
+                //    console.log(res)
                }).catch(err=>{
                   Toast.fail('数据获取失败，服务器错误')
                })

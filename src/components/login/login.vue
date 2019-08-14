@@ -66,7 +66,6 @@
                 openLoading: false,
                 usernameErrorMsg: '',
                 passwordErrorMsg: '',
-                
             }
         },
         computed:{
@@ -101,17 +100,16 @@
                     console.log(res)
                     if(res.data.code == 200) {
                         new Promise((res,rej)=>{
-                            localStorage.userInfo={
+                            localStorage.userInfo=JSON.stringify({
                                 userName:this.username
-                            }
+                            })
                             setTimeout(()=>{
                                 res()
                             },500)
                             }).then(res=>{
                             Toast.success('登录成功！')
-                       
                             this.$router.push({
-                                path:'/'
+                                path:'/home'
                             })
                         }).catch(err=>{
                             Toast.fail('登录状态保存失败')

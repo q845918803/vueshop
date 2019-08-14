@@ -23,7 +23,7 @@
                 <div class="list-div">
                     <van-pull-refresh v-model="isRefresh" @refresh="swiperDownFresh">
                         <van-list @load="swiperUpLoading" v-model="loading" :finished="finished">
-                            <div class="list-item" v-for="(item,index) in goodslist" :key="index">
+                            <div class="list-item" v-for="(item,index) in goodslist" @click="goGoodsInfo(item)" :key="index">
                                 <div class="list-item-img">
                                     <img :src="item.IMAGE1" width="100%" alt="" :onerror="errImg">
                                 </div>
@@ -83,13 +83,20 @@ import {fixTitle} from '../../assets/js/filter'
             }
         },
         methods: {
-           
+            goGoodsInfo(item){
+                // console.log(item)
+                this.$router.push({
+                    name:'Goods',
+                    params:{goodsitem:item}
+                })
+            },
             selectSub(index,title){
                     this.goodslist = []
                     this.postData.page = 1
                     this.postData.id = this.sublist[index].ID
-                    this._getGoodsForSubId()
                     this.finished = false
+                    this._getGoodsForSubId()
+                    
                 },
              _getGoodsForSubId(){
                 axios({
@@ -103,14 +110,14 @@ import {fixTitle} from '../../assets/js/filter'
                     }else {
                         this.finished = true
                     }
-                    console.log(res)
+                    // console.log(res)
                 }).catch(err=>{
                     console.log(err)
                 })
             },
             swiperDownFresh(){
                 setTimeout(()=>{
-                    this.this.postData.page = 1
+                    this.postData.page = 1
                     this.isRefresh = false
                     this.finished = false
                     this.goodslist = []
@@ -123,11 +130,11 @@ import {fixTitle} from '../../assets/js/filter'
                    let winHeight = document.documentElement.clientHeight
                    let subHeight = document.getElementsByClassName('sublist')[0].clientHeight
                     let topHeight = document.getElementsByClassName('navbar-div')[0].clientHeight
-                    console.log(topHeight);
+                    // console.log(topHeight);
                     let leftHeight = document.getElementsByClassName('leftNav')[0]
                     let listHeight = document.getElementsByClassName('list-div')[0]
-                    leftHeight.style.height = (winHeight - topHeight)+ 'px'
-                    listHeight.style.height = (winHeight - topHeight - subHeight) + 'px'
+                    leftHeight.style.height = (winHeight - topHeight -50)+ 'px'
+                    listHeight.style.height = (winHeight - topHeight - subHeight -50) + 'px'
             },
             swiperUpLoading(){
                 setTimeout(()=>{
@@ -142,7 +149,7 @@ import {fixTitle} from '../../assets/js/filter'
                 }).then(res=>{
                     if(res.data.code == 200 && res.data.message){
                         this.cateGoryList = res.data.message
-                        console.log(this.cateGoryList)
+                        // console.log(this.cateGoryList)
                         this._getCateGorySub(this.cateGoryList[0].ID)
                     }else {
                         Toast.fail('数据获取失败')
@@ -175,9 +182,9 @@ import {fixTitle} from '../../assets/js/filter'
                     this.swiperUpLoading()
                 }else {
                     Toast.fail('请求失败，服务器错误！')
-                    console.log(res)
+                    // console.log(res)
                 }
-                console.log(res)
+                // console.log(res)
             }).catch(err=>{
                 console.log(err)
             })

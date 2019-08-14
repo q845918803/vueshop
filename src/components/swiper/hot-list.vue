@@ -45,4 +45,9 @@ import GoodsInfo from '../../components/swiper/goods-info'
         font-weight: bold;
         line-height: 1.5rem;
     }
+    .hot-list {
+            height: 134rem;
+        overflow: hidden;
+        background: #fff;
+    }
 </style>
